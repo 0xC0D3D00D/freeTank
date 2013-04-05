@@ -51,5 +51,10 @@ public class Tank {
     public Direction getDirection() {
         return direction;
     }
-    
+  
+    @Override
+    public String toString()
+    {
+        return this.line.toArrayList().get(0).toString() + ", Length:" + this.length + ", Direction:" + this.direction;
+    }
 }

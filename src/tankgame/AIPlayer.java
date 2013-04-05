@@ -4,16 +4,54 @@
  */
 package tankgame;
 
-import javax.tools.Diagnostic;
 
 /**
  *
  * @author Mohammad Hossein Heydari <mdh.heydari@gmail.com>
  */
 public class AIPlayer extends Player {
-    public void addTank()
+    
+    public void addTanks()
     {
-       Tank newTank=new Tank(0,0,0,Direction.Horizontal); 
-       super.addTank(newTank);
+        Direction randomDirection;
+        int length;
+        int randomDirectionInt;
+        int x,y;
+        
+        while(true)
+        {
+            x=(int)(Math.random()*9);
+            y=(int)(Math.random()*9);
+            length = (int)(Math.random()*5);
+            length = (length<2 ? 2 : length);
+            randomDirectionInt = (int)(Math.random()*2);
+            randomDirection = Direction.Horizontal;
+            if(randomDirectionInt==1)
+            {
+                randomDirection= Direction.Horizontal;
+                if(x+length>9)
+                    continue;
+            }
+            else {
+                randomDirection= Direction.Vertical;
+                if(y+length>9)
+                    continue;
+            }
+            
+            Tank newTank=new Tank(x,y, length, randomDirection);
+            
+            if(!isCollideAnyTank(newTank))
+                super.addTank(newTank);
+            
+            if(super.tankArraySize()==5)
+                break;
+        }
+    }
+    
+    public Point shotPoint()
+    {
+        Point p = new Point((int)(Math.random()*9), (int)(Math.random()*9), PointType.PointEmpty);
+        //System.out.println(p.toString());
+        return p;
     }
 }

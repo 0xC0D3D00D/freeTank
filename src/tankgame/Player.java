@@ -20,6 +20,15 @@ public class Player {
         {
             board.setPoint(p);
         }
+        this.tanks.add(newTank);
+    }
+
+    public void addTankArray(ArrayList<Tank> tanks)
+    {
+        for(Tank t: tanks)
+        {
+            this.addTank(t);
+        }
     }
     
     public boolean doHavePoint(Point point)
@@ -37,5 +46,48 @@ public class Player {
         return board;
     }
     
+    public boolean shotPoint(int i, int j)
+    {
+        switch(board.getPointType(i, j))
+        {
+            case PointTank:
+                board.setPoint(i, j, PointType.PointDead);
+                return true;
+            case PointEmpty:
+                board.setPoint(i, j, PointType.PointMissed);
+                return true;
+            case PointMissed:
+                return false;
+            case PointDead:
+                return false;
+            default:
+                return false;
+        }
+    }
+    
+    protected int tankArraySize()
+    {
+        return tanks.size();
+    }
+    
+    protected boolean isCollideAnyTank(Tank tank)
+    {
+        boolean flag=false;
+        for(Tank t: tanks)
+        {
+            if(t.isCollide(tank))
+                flag=true;
+        }
+        return flag;
+    }
+    
+    public boolean isLost()
+    {
+        for(int i=0;i<10;i++)
+            for(int j=0;j<10;j++)
+                if(board.getPointType(i, j)== PointType.PointTank)
+                    return false;
+        return true;
+    }
 }
 
